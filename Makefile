@@ -23,5 +23,15 @@ lint: $(STITCHMD)
 style.md: $(STITCHMD) $(wildcard src/*)
 	$(STITCHMD) $(STITCHMD_ARGS)
 
+styledoc.md: $(STITCHMD) $(wildcard src/*)
+	$(STITCHMD) -no-toc -o styledoc.md -preface src/pandocpreface.txt src/SUMMARY.md
+
+styledoc.pdf: styledoc.md
+	pandoc $< --toc -o $@
+
+styledoc.html: styledoc.md
+	pandoc $< --toc --standalone --css=https://unpkg.com/mvp.css  -o $@
+
+
 $(STITCHMD):
 	go install go.abhg.dev/stitchmd@latest
